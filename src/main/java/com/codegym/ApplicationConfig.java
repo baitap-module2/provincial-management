@@ -23,9 +23,9 @@ import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
-import javax.activation.DataSource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
@@ -66,7 +66,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
         return viewResolver;
     }
 
-
     @Bean
     @Qualifier(value = "entityManager")
     public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
@@ -76,7 +75,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource((javax.sql.DataSource) dataSource());
+        em.setDataSource(dataSource());
         em.setPackagesToScan(new String[]{"com.codegym.model"});
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -89,10 +88,10 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/provincial_management");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/customer_management");
         dataSource.setUsername( "root" );
         dataSource.setPassword( "Hn0912388240" );
-        return (DataSource) dataSource;
+        return dataSource;
     }
 
     @Bean
@@ -108,4 +107,5 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         return properties;
     }
+
 }

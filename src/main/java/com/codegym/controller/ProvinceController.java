@@ -65,7 +65,7 @@ public class ProvinceController {
     public ModelAndView showDeleteForm(@PathVariable Long id){
         Province province = provinceService.findById(id);
         if(province != null) {
-            ModelAndView modelAndView = new ModelAndView("/province/delete");
+            ModelAndView modelAndView = new ModelAndView("/delete");
             modelAndView.addObject("province", province);
             return modelAndView;
         }else {

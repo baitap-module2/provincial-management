@@ -41,12 +41,4 @@ public class CustomerServiceImpl implements CustomerService {
     public Page<Customer> findAll(Pageable pageable) {
         return customerRepository.findAll(pageable);
     }
-
-    //    method tìm kiếm
-    @Override
-    public Page<Customer> findAllByFirstNameContaining(String firstname, Pageable pageable) {
-        return customerRepository.findAllByFirstNameContaining(firstname, pageable);
-    }
-
-
 }

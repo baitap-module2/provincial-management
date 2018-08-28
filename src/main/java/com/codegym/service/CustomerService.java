@@ -18,7 +18,4 @@ public interface CustomerService {
 
     //    phân trang
     Page<Customer> findAll(Pageable pageable);
-
-    //    method tìm kiếm
-    Page<Customer> findAllByFirstNameContaining(String firstname, Pageable pageable);
 }

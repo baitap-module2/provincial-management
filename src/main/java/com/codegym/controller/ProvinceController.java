@@ -1,6 +1,8 @@
 package com.codegym.controller;
 
+import com.codegym.model.Customer;
 import com.codegym.model.Province;
+import com.codegym.service.CustomerService;
 import com.codegym.service.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProvinceController {
     @Autowired
     private ProvinceService provinceService;
+
+    @Autowired
+    private CustomerService customerService;
 
     //    hiển thị danh sách
     @GetMapping("/provinces")
@@ -82,5 +87,19 @@ public class ProvinceController {
     public String deleteProvince(@ModelAttribute("province") Province province) {
         provinceService.remove(province.getId());
         return "redirect:provinces";
+    }
+
+    //    hiển thị danh sách các customer của 1 province
+    @GetMapping("/view-province/{id}")
+    public ModelAndView viewProvince(@PathVariable("id") Long id) {
+        Province province = provinceService.findById(id);
+        if (province == null) {
+            return new ModelAndView("/error.404");
+        }
+        Iterable<Customer> customers = customerService.findAllByProvince(province);
+        ModelAndView modelAndView = new ModelAndView("/province/view");
+        modelAndView.addObject("province", province);
+        modelAndView.addObject("customers", customers);
+        return modelAndView;
     }
 }

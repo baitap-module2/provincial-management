@@ -26,6 +26,7 @@ public class CustomerController {
         return provinceService.findAll();
     }
 
+    //hiển thị danh sách
     @GetMapping("/customers")
     public ModelAndView listCustomers() {
         Iterable<Customer> customers = customerService.findAll();
@@ -34,6 +35,7 @@ public class CustomerController {
         return modelAndView;
     }
 
+    //thêm
     @GetMapping("/create-customer")
     public ModelAndView showCreateForm() {
         ModelAndView modelAndView = new ModelAndView("/customer/create");
@@ -50,6 +52,7 @@ public class CustomerController {
         return modelAndView;
     }
 
+    //sửa
     @GetMapping("/edit-customer/{id}")
     public ModelAndView showEditForm(@PathVariable Long id) {
         Customer customer = customerService.findById(id);
@@ -68,10 +71,11 @@ public class CustomerController {
         customerService.save(customer);
         ModelAndView modelAndView = new ModelAndView("/customer/edit");
         modelAndView.addObject("customer", customer);
-        modelAndView.addObject("message","Customer updated successfully");
+        modelAndView.addObject("message", "Customer updated successfully");
         return modelAndView;
     }
 
+    //    xóa
     @GetMapping("/delete-customer/{id}")
     public ModelAndView showDeleteForm(@PathVariable Long id) {
         Customer customer = customerService.findById(id);

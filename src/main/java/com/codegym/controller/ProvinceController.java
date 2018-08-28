@@ -18,14 +18,14 @@ public class ProvinceController {
     @GetMapping("/provinces")
     public ModelAndView listProvinces() {
         Iterable<Province> provinces = provinceService.findAll();
-        ModelAndView modelAndView = new ModelAndView("/list");
+        ModelAndView modelAndView = new ModelAndView("/province/list");
         modelAndView.addObject("provinces", provinces);
         return modelAndView;
     }
 
     @GetMapping("/create-province")
     public ModelAndView showCreateForm(){
-        ModelAndView modelAndView = new ModelAndView("/create");
+        ModelAndView modelAndView = new ModelAndView("/province/create");
         modelAndView.addObject("province", new Province());
         return modelAndView;
     }
@@ -33,7 +33,7 @@ public class ProvinceController {
     @PostMapping("/create-province")
     public ModelAndView saveProvince(@ModelAttribute("province") Province province){
         provinceService.save(province);
-        ModelAndView modelAndView = new ModelAndView("/create");
+        ModelAndView modelAndView = new ModelAndView("/province/create");
         modelAndView.addObject("province", new Province());
         modelAndView.addObject("message", "New province created successfully");
         return modelAndView;
@@ -43,7 +43,7 @@ public class ProvinceController {
     public ModelAndView showEditForm(@PathVariable Long id){
         Province province = provinceService.findById(id);
         if(province != null) {
-            ModelAndView modelAndView = new ModelAndView("/edit");
+            ModelAndView modelAndView = new ModelAndView("/province/edit");
             modelAndView.addObject("province", province);
             return modelAndView;
         }else {
@@ -55,7 +55,7 @@ public class ProvinceController {
     @PostMapping("/edit-province")
     public ModelAndView updateProvince(@ModelAttribute("province") Province province){
         provinceService.save(province);
-        ModelAndView modelAndView = new ModelAndView("/edit");
+        ModelAndView modelAndView = new ModelAndView("/province/edit");
         modelAndView.addObject("province", province);
         modelAndView.addObject("message", "Province updated successfully");
         return modelAndView;
@@ -65,7 +65,7 @@ public class ProvinceController {
     public ModelAndView showDeleteForm(@PathVariable Long id){
         Province province = provinceService.findById(id);
         if(province != null) {
-            ModelAndView modelAndView = new ModelAndView("/delete");
+            ModelAndView modelAndView = new ModelAndView("province/delete");
             modelAndView.addObject("province", province);
             return modelAndView;
         }else {

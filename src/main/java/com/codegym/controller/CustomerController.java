@@ -5,12 +5,13 @@ import com.codegym.model.Province;
 import com.codegym.service.CustomerService;
 import com.codegym.service.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Optional;
 
 @Controller
 public class CustomerController {
@@ -27,13 +28,13 @@ public class CustomerController {
     }
 
     //hiển thị danh sách
-    @GetMapping("/customers")
-    public ModelAndView listCustomers() {
-        Iterable<Customer> customers = customerService.findAll();
-        ModelAndView modelAndView = new ModelAndView("customer/list");
-        modelAndView.addObject("customers", customers);
-        return modelAndView;
-    }
+//    @GetMapping("/customers")
+//    public ModelAndView listCustomers() {
+//        Iterable<Customer> customers = customerService.findAll();
+//        ModelAndView modelAndView = new ModelAndView("customer/list");
+//        modelAndView.addObject("customers", customers);
+//        return modelAndView;
+//    }
 
     //thêm
     @GetMapping("/create-customer")
@@ -93,5 +94,29 @@ public class CustomerController {
     public String deleteCustomer(@ModelAttribute("customer") Customer customer) {
         customerService.remove(customer.getId());
         return "redirect:customers";
+    }
+
+    //    phân trang
+    //    tự động mapping
+    @GetMapping("/customers")
+    public ModelAndView listCustomers(Pageable pageable) {
+        Page<Customer> customers = customerService.findAll(pageable);
+        ModelAndView modelAndView = new ModelAndView("/customer/list");
+        modelAndView.addObject("customers", customers);
+        return modelAndView;
+    }
+
+    //    method tìm kiếm
+    @GetMapping("/customers")
+    public ModelAndView listCustomers(@RequestParam("s") Optional<String> s, Pageable pageable) {
+        Page<Customer> customers;
+        if (s.isPresent()) {
+            customers = customerService.findAllByFirstNameContaining(s.get(), pageable);
+        } else {
+            customers = customerService.findAll(pageable);
+        }
+        ModelAndView modelAndView = new ModelAndView("/customer/list");
+        modelAndView.addObject("customers", customers);
+        return modelAndView;
     }
 }

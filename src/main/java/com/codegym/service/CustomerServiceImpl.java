@@ -11,10 +11,10 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-//    @Override
-//    public Iterable<Customer> findAll() {
-//        return customerRepository.findAll();
-//    }
+    @Override
+    public Iterable<Customer> findAll() {
+        return customerRepository.findAll();
+    }
 
     @Override
     public Customer findById(Long id) {
@@ -40,5 +40,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Page<Customer> findAll(Pageable pageable) {
         return customerRepository.findAll(pageable);
+    }
+
+    //    phương thức tìm kiếm
+    @Override
+    public Page<Customer> findAllByFirstNameContaining(String firstname, Pageable pageable) {
+        return customerRepository.findAllByFirstNameContaining(firstname, pageable);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CustomerService {
-//    Iterable<Customer> findAll();
+    Iterable<Customer> findAll();
 
     Customer findById(Long id);
 
@@ -18,4 +18,7 @@ public interface CustomerService {
 
     //    phân trang
     Page<Customer> findAll(Pageable pageable);
+
+    //    phương thức tìm kiếm
+    Page<Customer> findAllByFirstNameContaining(String firstname, Pageable pageable);
 }

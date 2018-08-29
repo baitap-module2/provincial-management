@@ -98,9 +98,23 @@ public class CustomerController {
 
     //    phân trang
     //    tự động mapping
+//    @GetMapping("/customers")
+//    public ModelAndView listCustomers(Pageable pageable) {
+//        Page<Customer> customers = customerService.findAll(pageable);
+//        ModelAndView modelAndView = new ModelAndView("/customer/list");
+//        modelAndView.addObject("customers", customers);
+//        return modelAndView;
+//    }
+
+    //    phương thức tìm kiếm
     @GetMapping("/customers")
-    public ModelAndView listCustomers(Pageable pageable) {
-        Page<Customer> customers = customerService.findAll(pageable);
+    public ModelAndView listCustomers(@RequestParam("s") Optional<String> s, Pageable pageable){
+        Page<Customer> customers;
+        if(s.isPresent()){
+            customers = customerService.findAllByFirstNameContaining(s.get(), pageable);
+        } else {
+            customers = customerService.findAll(pageable);
+        }
         ModelAndView modelAndView = new ModelAndView("/customer/list");
         modelAndView.addObject("customers", customers);
         return modelAndView;
